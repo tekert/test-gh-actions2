@@ -1,0 +1,50 @@
+name: test2
+
+run-name: "Make release from: ${{ github.event.workflow.name }} -> ${{ github.workflow }} (on tag: @${{ inputs.versionName }}${{ github.event.workflow_run.head_branch }})"
+
+on:
+
+  #! Note: This event will only trigger a workflow run if the workflow file is on the default branch.
+  workflow_run:
+    workflows: [test1]
+    branches:
+      - v[0-9]+.[0-9]+.[0-9]+
+    types:
+      - completed
+
+  workflow_dispatch:
+    inputs:
+      versionName:
+        description: 'Name of version  (ie v5.5.0) same as tag name'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+
+  release:
+    # Run if this was fired from a success worflow_run or workflow_dispatch (in wich case workflow_run.conclusion would be empty)
+    #if: ${{ contains(fromJson('["success", ""]'), github.event.workflow_run.conclusion) || (github.event_name == 'workflow_dispatch') }}
+
+    runs-on:  ubuntu-latest
+
+    steps:
+
+      # To have access to CHANGELOG.md and tags
+      - name: "Checkout local repository"
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+
+      - name: Dump GitHub event context
+        id: github_event_context_step
+        run: echo $JSON
+        env:
+          JSON: ${{ toJSON(github.event) }}
+
+      # event_name = workflow_run
+      - name: Dump GitHub context
+        id: github_context_step
+        run: |
+          echo "end"
