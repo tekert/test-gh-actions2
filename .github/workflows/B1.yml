@@ -18,6 +18,7 @@ jobs:
     secrets: inherit
 
   build2:
+    needs: [build1]
     if: needs.build1.result == 'success'
     runs-on:  ubuntu-latest
 
