@@ -13,8 +13,8 @@ jobs:
 
   build1:
     uses: tekert/test-gh-actions1/.github/workflows/build.yml@master
-    with:
-      target: "--last-release"
+#    with:
+#      target: "--last-release"
     secrets: inherit
 
   build2:
