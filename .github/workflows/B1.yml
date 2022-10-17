@@ -1,4 +1,4 @@
-name: test1
+name: B1
 run-name: "Build a release from: -> ${{ github.workflow }} (on tag: @${{ github.ref_name }})"
 
 on:
@@ -8,17 +8,30 @@ on:
   # Allows you to run this workflow manually from the Actions tab (for testing)
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+
 jobs:
 
   build:
+    uses: tekert/test-gh-actions1/.github/workflows/build.yml@master
+    with:
+      target: "--last-version"
+    secrets: inherit
+
+  build1:
 
     runs-on:  ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      # https://github.com/actions/checkout
+      - name: Display structure of downloaded files
+        run: ls -R
+
+      # Download artifact
+      - name: "Download build artifacts"
+        uses: actions/download-artifact@v3
+
+      - name: Display structure of downloaded files
+        run: ls -R
+
       - name: "Checkout local repository"
         uses: actions/checkout@v3
 
