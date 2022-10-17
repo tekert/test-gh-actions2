@@ -11,14 +11,14 @@ on:
 
 jobs:
 
-  build:
+  build1:
     uses: tekert/test-gh-actions1/.github/workflows/build.yml@master
     with:
       target: "--last-release"
     secrets: inherit
 
-  build1:
-
+  build2:
+    if: needs.build1.result == 'success'
     runs-on:  ubuntu-latest
 
     steps:
