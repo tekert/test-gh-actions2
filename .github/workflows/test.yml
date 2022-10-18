@@ -15,7 +15,7 @@ jobs:
 
       - name: Set github envs for debug
         run: |
-          echo "::warning::Package v$PACKAGE_VERSION and tag $BUILD_REF_TAG version mismatch"
+          echo "::warning title="TITULO"::Package v$PACKAGE_VERSION and tag $BUILD_REF_TAG version mismatch"
         env:
           GITHUB_JSON: ${{ toJSON(github) }}
           NEEDS_JSON: ${{ toJSON(needs) }}
