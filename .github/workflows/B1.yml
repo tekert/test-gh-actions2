@@ -19,7 +19,8 @@ jobs:
       formatter_server_ref: ${{ steps.validated.outputs.FORMATTER_SERVER_REF }}
 
     steps:
-      - run: |
+      - id: validated
+        run: |
           FORMATTER_SERVER_REF="aver"
           echo "FORMATTER_SERVER_REF=$FORMATTER_SERVER_REF" >> $GITHUB_OUTPUT
 
@@ -49,7 +50,9 @@ jobs:
         working-directory: "."
 
       - name: Display structure of downloaded files
-        run: ls -R
+        run: |
+          echo "AVER: ${{needs.setup.outputs.formatter_server_ref}}"
+          ls -R
 
       # Download artifact
       - name: "Download build artifacts"
