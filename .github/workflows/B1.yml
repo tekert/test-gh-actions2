@@ -11,8 +11,23 @@ on:
 
 jobs:
 
+  setup:
+    name: "Validate version"
+    runs-on: ubuntu-latest
+
+    outputs:
+      formatter_server_ref: ${{ steps.validated.outputs.FORMATTER_SERVER_REF }}
+
+    steps:
+      - run: |
+          FORMATTER_SERVER_REF="aver"
+          echo "FORMATTER_SERVER_REF=$FORMATTER_SERVER_REF" >> $GITHUB_OUTPUT
+
   build1:
-    uses: tekert/test-gh-actions1/.github/workflows/build.yml@master
+    needs: setup
+    if: needs.setup.result == 'success'
+
+    uses: tekert/test-gh-actions1/.github/workflows/build.yml@{{needs.setup.outputs.formatter_server_ref}}
 #    with:
 #      target: "--last-release"
     secrets: inherit
