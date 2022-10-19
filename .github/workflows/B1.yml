@@ -27,7 +27,7 @@ jobs:
     needs: setup
     if: needs.setup.result == 'success'
 
-    uses: tekert/test-gh-actions1/.github/workflows/build.yml@{{needs.setup.outputs.formatter_server_ref}}
+    uses: tekert/test-gh-actions1/.github/workflows/build.yml@${{needs.setup.outputs.formatter_server_ref}}
 #    with:
 #      target: "--last-release"
     secrets: inherit
