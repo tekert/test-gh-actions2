@@ -1,8 +1,11 @@
 name: test
 run-name: "TEST"
 
+
 on:
   workflow_dispatch:
+
+  push:
 
 
 jobs:
